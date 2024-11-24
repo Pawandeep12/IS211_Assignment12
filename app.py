@@ -122,5 +122,7 @@ def add_result():
     return render_template('add_result.html', students=students, quizzes=quizzes)
 
 if __name__ == '__main__':
-    db.create_all()
+    with app.app_context():  
+        db.create_all()     
     app.run(debug=True)
+
