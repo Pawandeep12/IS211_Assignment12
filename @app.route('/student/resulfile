@@ -1,0 +1,21 @@
+@app.route('/results/add', methods=['GET', 'POST'])
+def add_result():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    students = Student.query.all()
+    quizzes = Quiz.query.all()
+
+    if request.method == 'POST':
+        student_id = request.form.get('student_id')
+        quiz_id = request.form.get('quiz_id')
+        score = request.form.get('score')
+        if not student_id or not quiz_id or not score:
+            flash('Please fill in all fields.', 'error')
+        else:
+            new_result = Result(student_id=int(student_id), quiz_id=int(quiz_id), score=int(score))
+            db.session.add(new_result)
+            db.session.commit()
+            flash('Quiz result added successfully!', 'success')
+            return redirect(url_for('dashboard'))
+    return render_template('add_result.html', students=students, quizzes=quizzes)
