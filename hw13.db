@@ -1,0 +1,14 @@
+import sqlite3
+
+# Connect to the database
+conn = sqlite3.connect('hw13.db')
+cursor = conn.cursor()
+
+# Insert sample data
+cursor.execute("INSERT INTO students (first_name, last_name) VALUES ('John', 'Smith')")
+cursor.execute("INSERT INTO quizzes (subject, num_questions, quiz_date) VALUES ('Python Basics', 5, '2015-02-05')")
+cursor.execute("INSERT INTO results (student_id, quiz_id, score) VALUES (1, 1, 85)")
+
+# Commit changes and close connection
+conn.commit()
+conn.close()
