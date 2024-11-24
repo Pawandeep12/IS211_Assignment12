@@ -1,0 +1,8 @@
+@app.route('/student/<int:id>')
+def view_results(id):
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+
+    student = Student.query.get_or_404(id)
+    results = db.session.query(Result, Quiz).join(Quiz).filter(Result.student_id == id).all()
+    return render_template('view_results.html', student=student, results=results)
