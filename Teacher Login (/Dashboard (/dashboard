@@ -1,8 +1,0 @@
-@app.route('/dashboard')
-def dashboard():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
-    
-    students = Student.query.all()
-    quizzes = Quiz.query.all()
-    return render_template('dashboard.html', students=students, quizzes=quizzes)
