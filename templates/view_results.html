@@ -2,40 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Student Results</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <a href="/student/add">Add Student</a> | <a href="/quiz/add">Add Quiz</a> | <a href="/results/add">Add Quiz Result</a>
-    <h2>Students</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-        </tr>
-        {% for student in students %}
-        <tr>
-            <td>{{ student.id }}</td>
-            <td><a href="/student/{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    <h2>Quizzes</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Subject</th>
-            <th>Number of Questions</th>
-            <th>Date</th>
-        </tr>
-        {% for quiz in quizzes %}
-        <tr>
-            <td>{{ quiz.id }}</td>
-            <td>{{ quiz.subject }}</td>
-            <td>{{ quiz.num_questions }}</td>
-            <td>{{ quiz.quiz_date }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <h1>Quiz Results for {{ student.first_name }} {{ student.last_name }}</h1>
+    {% if results %}
+        <table border="1">
+            <tr>
+                <th>Quiz ID</th>
+                <th>Subject</th>
+                <th>Score</th>
+            </tr>
+            {% for result, quiz in results %}
+            <tr>
+                <td>{{ quiz.id }}</td>
+                <td>{{ quiz.subject }}</td>
+                <td>{{ result.score }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No Results</p>
+    {% endif %}
+    <a href="/dashboard">Back to Dashboard</a>
 </body>
 </html>
