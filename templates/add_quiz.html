@@ -18,11 +18,5 @@
         <br>
         <button type="submit">Add Quiz</button>
     </form>
-    <a href="/dashboard">Back to Dashboard</a>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <p>{{ messages[0] }}</p>
-        {% endif %}
-    {% endwith %}
-</body>
-</html>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+   
