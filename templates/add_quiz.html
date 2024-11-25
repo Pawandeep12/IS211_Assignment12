@@ -2,40 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Add Quiz</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <a href="/student/add">Add Student</a> | <a href="/quiz/add">Add Quiz</a> | <a href="/results/add">Add Quiz Result</a>
-    <h2>Students</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-        </tr>
-        {% for student in students %}
-        <tr>
-            <td>{{ student.id }}</td>
-            <td><a href="/student/{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    <h2>Quizzes</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Subject</th>
-            <th>Number of Questions</th>
-            <th>Date</th>
-        </tr>
-        {% for quiz in quizzes %}
-        <tr>
-            <td>{{ quiz.id }}</td>
-            <td>{{ quiz.subject }}</td>
-            <td>{{ quiz.num_questions }}</td>
-            <td>{{ quiz.quiz_date }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <h1>Add Quiz</h1>
+    <form method="POST">
+        <label for="subject">Subject:</label>
+        <input type="text" name="subject" id="subject" required>
+        <br>
+        <label for="num_questions">Number of Questions:</label>
+        <input type="number" name="num_questions" id="num_questions" min="1" required>
+        <br>
+        <label for="quiz_date">Date (YYYY-MM-DD):</label>
+        <input type="date" name="quiz_date" id="quiz_date" required>
+        <br>
+        <button type="submit">Add Quiz</button>
+    </form>
+    <a href="/dashboard">Back to Dashboard</a>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p>{{ messages[0] }}</p>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>
