@@ -2,40 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Add Quiz Result</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <a href="/student/add">Add Student</a> | <a href="/quiz/add">Add Quiz</a> | <a href="/results/add">Add Quiz Result</a>
-    <h2>Students</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-        </tr>
-        {% for student in students %}
-        <tr>
-            <td>{{ student.id }}</td>
-            <td><a href="/student/{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    <h2>Quizzes</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Subject</th>
-            <th>Number of Questions</th>
-            <th>Date</th>
-        </tr>
-        {% for quiz in quizzes %}
-        <tr>
-            <td>{{ quiz.id }}</td>
-            <td>{{ quiz.subject }}</td>
-            <td>{{ quiz.num_questions }}</td>
-            <td>{{ quiz.quiz_date }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <h1>Add Quiz Result</h1>
+    <form method="POST">
+        <label for="student_id">Student:</label>
+        <select name="student_id" id="student_id" required>
+            <option value="" disabled selected>Select a Student</option>
+            {% for student in students %}
+            <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="quiz_id">Quiz:</label>
+        <select name="quiz_id" id="quiz_id" required>
+            <option value="" disabled selected>Select a Quiz</option>
+            {% for quiz in quizzes %}
+            <option value="{{ quiz.id }}">{{ quiz.subject }} ({{ quiz.quiz_date }})</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="score">Score:</label>
+        <input type="number" name="score" id="score" min="0" max="100" required>
+        <br>
+        <button type="submit">Add Result</button>
+    </form>
+    <a href="/dashboard">Back to Dashboard</a>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p>{{ messages[0] }}</p>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>
