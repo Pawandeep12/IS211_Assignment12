@@ -3,12 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Use a secure key in production
+app.secret_key = 'your_secret_key' 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hw13.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Models
+
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(100), nullable=False)
@@ -26,8 +26,8 @@ class Result(db.Model):
     quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable=False)
     score = db.Column(db.Integer, nullable=False)
 
-# Routes
-@app.route('/login', methods=['GET', 'POST'])  # Correct route
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -38,7 +38,7 @@ def login():
         flash('Invalid credentials!', 'error')
     return render_template('login.html')
 
-@app.route('/dashboard')  # Correct route
+@app.route('/dashboard')
 def dashboard():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -46,7 +46,7 @@ def dashboard():
     quizzes = Quiz.query.all()
     return render_template('dashboard.html', students=students, quizzes=quizzes)
 
-@app.route('/student/add', methods=['GET', 'POST'])  # Correct route
+@app.route('/student/add', methods=['GET', 'POST'])
 def add_student():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -62,7 +62,7 @@ def add_student():
         flash('All fields are required!', 'error')
     return render_template('add_student.html')
 
-@app.route('/quiz/add', methods=['GET', 'POST'])  # Correct route
+@app.route('/quiz/add', methods=['GET', 'POST'])
 def add_quiz():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -80,7 +80,7 @@ def add_quiz():
         flash('All fields are required!', 'error')
     return render_template('add_quiz.html')
 
-@app.route('/student/<int:id>')  # Correct route
+@app.route('/student/<int:id>')
 def view_results(id):
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -88,7 +88,7 @@ def view_results(id):
     results = db.session.query(Result, Quiz).join(Quiz).filter(Result.student_id == id).all()
     return render_template('view_results.html', student=student, results=results)
 
-@app.route('/results/add', methods=['GET', 'POST'])  # Correct route
+@app.route('/results/add', methods=['GET', 'POST'])
 def add_result():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -109,5 +109,6 @@ def add_result():
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Creates the database tables
-    app.run(debug=True)  # Start the Flask app
+        db.create_all() 
+    app.run(debug=True)
+
