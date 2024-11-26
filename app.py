@@ -27,7 +27,7 @@ class Result(db.Model):
     score = db.Column(db.Integer, nullable=False)
 
 # Routes
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])  # Correct route
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -38,7 +38,7 @@ def login():
         flash('Invalid credentials!', 'error')
     return render_template('login.html')
 
-@app.route('http://127.0.0.1:5000/dashboard')
+@app.route('/dashboard')  # Correct route
 def dashboard():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -46,7 +46,7 @@ def dashboard():
     quizzes = Quiz.query.all()
     return render_template('dashboard.html', students=students, quizzes=quizzes)
 
-@app.route('http://127.0.0.1:5000/student/add', methods=['GET', 'POST'])
+@app.route('/student/add', methods=['GET', 'POST'])  # Correct route
 def add_student():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -62,7 +62,7 @@ def add_student():
         flash('All fields are required!', 'error')
     return render_template('add_student.html')
 
-@app.route('http://127.0.0.1:5000/quiz/add', methods=['GET', 'POST'])
+@app.route('/quiz/add', methods=['GET', 'POST'])  # Correct route
 def add_quiz():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -80,7 +80,7 @@ def add_quiz():
         flash('All fields are required!', 'error')
     return render_template('add_quiz.html')
 
-@app.route('http://127.0.0.1:5000/student/<int:id>')
+@app.route('/student/<int:id>')  # Correct route
 def view_results(id):
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -88,7 +88,7 @@ def view_results(id):
     results = db.session.query(Result, Quiz).join(Quiz).filter(Result.student_id == id).all()
     return render_template('view_results.html', student=student, results=results)
 
-@app.route('http://127.0.0.1:5000/results/add', methods=['GET', 'POST'])
+@app.route('/results/add', methods=['GET', 'POST'])  # Correct route
 def add_result():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
