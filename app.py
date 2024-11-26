@@ -34,14 +34,14 @@ def login():
         password = request.form['password']
         if username == 'admin' and password == 'password':
             session['logged_in'] = True
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('http://127.0.0.1:5000'))
         flash('Invalid credentials!', 'error')
     return render_template('login.html')
 
 @app.route('/dashboard')
 def dashboard():
     if not session.get('logged_in'):
-        return redirect(url_for('login'))
+        return redirect(url_for('http://127.0.0.1:5000'))
     students = Student.query.all()
     quizzes = Quiz.query.all()
     return render_template('dashboard.html', students=students, quizzes=quizzes)
