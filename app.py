@@ -60,3 +60,33 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
+# Add Student Page
+@app.route('/student/add', methods=['GET', 'POST'])
+def add_student():
+    if request.method == 'POST':
+        # Get form data
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+
+        if not first_name or not last_name:
+            # Return error if form is incomplete
+            flash("Both first name and last name are required.", "error")
+            return render_template('add_student.html')
+
+        # Create a new Student object
+        new_student = Student(first_name=first_name, last_name=last_name)
+
+        try:
+            # Add to database
+            db.session.add(new_student)
+            db.session.commit()
+            flash("Student added successfully!", "success")
+            return redirect(url_for('dashboard'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error adding student: {str(e)}", "error")
+            return render_template('add_student.html')
+
+    return render_template('add_student.html')
+
