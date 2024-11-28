@@ -156,3 +156,39 @@ def view_student_results(student_id):
 
     
     return render_template('student_results.html', student=student, results=results)
+
+@app.route('/results/add', methods=['GET', 'POST'])
+def add_quiz_result():
+   
+    students = Student.query.all()
+    quizzes = Quiz.query.all()
+
+    if request.method == 'POST':
+        student_id = request.form.get('student_id')
+        quiz_id = request.form.get('quiz_id')
+        score = request.form.get('score')
+
+       
+        if not student_id or not quiz_id or not score:
+            flash('All fields are required!', 'error')
+            return render_template('add_quiz_result.html', students=students, quizzes=quizzes)
+
+        
+        try:
+            score = int(score)
+            if not (0 <= score <= 100):
+                raise ValueError("Score must be between 0 and 100.")
+        except ValueError:
+            flash('Score must be a valid number between 0 and 100.', 'error')
+            return render_template('add_quiz_result.html', students=students, quizzes=quizzes)
+
+      
+        quiz_result = StudentResult(student_id=student_id, quiz_id=quiz_id, score=score)
+        db.session.add(quiz_result)
+        db.session.commit()
+
+        flash('Quiz result added successfully!', 'success')
+        return redirect(url_for('dashboard'))
+
+    return render_template('add_quiz_result.html', students=students, quizzes=quizzes)
+
