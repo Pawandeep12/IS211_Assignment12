@@ -1,0 +1,37 @@
+import sqlite3
+
+
+DB_FILE = 'hw13.db'
+SCHEMA_FILE = 'schema.sql'
+
+
+sample_student = ("John", "Smith")
+sample_quiz = ("Python Basics", 5, "2015-02-05")
+sample_result = (1, 1, 85)  # (student_id, quiz_id, score)
+
+def initialize_database():
+    """Initialize the database and load sample data."""
+    
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+  
+    with open(SCHEMA_FILE, 'r') as schema:
+        cursor.executescript(schema.read())
+    
+    
+    cursor.execute("INSERT INTO students (first_name, last_name) VALUES (?, ?)", sample_student)
+
+    
+    cursor.execute("INSERT INTO quizzes (subject, num_questions, date_given) VALUES (?, ?, ?)", sample_quiz)
+
+   
+    cursor.execute("INSERT INTO results (student_id, quiz_id, score) VALUES (?, ?, ?)", sample_result)
+
+   
+    conn.commit()
+    conn.close()
+    print("Database initialized and sample data loaded.")
+
+if __name__ == "__main__":
+    initialize_database()
