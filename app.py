@@ -24,6 +24,22 @@ class Quiz(db.Model):
     num_questions = db.Column(db.Integer, nullable=False)
     quiz_date = db.Column(db.String(50), nullable=False)
 
+class StudentResult(db.Model):
+    __tablename__ = 'student_results'
+
+    id = db.Column(db.Integer, primary_key=True)
+    score = db.Column(db.Integer)
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'))
+
+    
+    student = db.relationship('Student', backref='results')
+    quiz = db.relationship('Quiz', backref='results')
+
+    def __repr__(self):
+        return f'<StudentResult {self.student.first_name} {self.student.last_name} - {self.quiz.subject}>'
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """Handle user login."""
