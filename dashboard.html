@@ -28,24 +28,26 @@
     <h1>Dashboard</h1>
     
     <h2>Students</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for student in students %}
-            <tr>
-                <td>{{ student.id }}</td>
-                <td>{{ student.first_name }}</td>
-                <td>{{ student.last_name }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Inside the student table -->
+<table>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Actions</th>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{ student.id }}</td>
+        <td>{{ student.first_name }}</td>
+        <td>{{ student.last_name }}</td>
+        <td>
+            <a href="{{ url_for('view_student_results', student_id=student.id) }}">View Results</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
 
     <h2>Quizzes</h2>
     <table>
