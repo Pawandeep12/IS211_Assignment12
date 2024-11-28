@@ -90,3 +90,34 @@ def add_student():
 
     return render_template('add_student.html')
 
+@app.route('/quiz/add', methods=['GET', 'POST'])
+def add_quiz():
+    if request.method == 'POST':
+        # Get form data
+        subject = request.form.get('subject')
+        num_questions = request.form.get('num_questions')
+        quiz_date = request.form.get('quiz_date')
+
+        if not subject or not num_questions or not quiz_date:
+            # Return error if form is incomplete
+            flash("All fields are required.", "error")
+            return render_template('add_quiz.html')
+
+        try:
+            # Parse the date
+            quiz_date_parsed = datetime.strptime(quiz_date, '%Y-%m-%d')
+
+            # Create a new Quiz object
+            new_quiz = Quiz(subject=subject, num_questions=int(num_questions), quiz_date=quiz_date_parsed)
+
+            # Add to database
+            db.session.add(new_quiz)
+            db.session.commit()
+            flash("Quiz added successfully!", "success")
+            return redirect(url_for('dashboard'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error adding quiz: {str(e)}", "error")
+            return render_template('add_quiz.html')
+
+    return render_template('add_quiz.html')
