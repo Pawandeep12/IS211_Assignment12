@@ -31,8 +31,9 @@ class StudentResult(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     score = db.Column(db.Integer)
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'))
-    quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'))
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), nullable=False)
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'), nullable=False)
+
 
     
     student = db.relationship('Student', backref='results')
