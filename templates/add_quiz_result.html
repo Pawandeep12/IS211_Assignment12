@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Quiz Result</title>
+</head>
+<body>
+    <h1>Add Quiz Result</h1>
+
+    <form method="POST">
+      
+        <label for="student_id">Select Student</label>
+        <select name="student_id" id="student_id">
+            <option value="">Select a student</option>
+            {% for student in students %}
+                <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }}</option>
+            {% endfor %}
+        </select><br><br>
+
+       
+        <label for="quiz_id">Select Quiz</label>
+        <select name="quiz_id" id="quiz_id">
+            <option value="">Select a quiz</option>
+            {% for quiz in quizzes %}
+                <option value="{{ quiz.id }}">{{ quiz.subject }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        
+        <label for="score">Score</label>
+        <input type="text" name="score" id="score" placeholder="Enter score (0-100)" required><br><br>
+
+     
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
