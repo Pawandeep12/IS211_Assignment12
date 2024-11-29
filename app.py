@@ -13,7 +13,7 @@ USERNAME = 'admin'
 PASSWORD = 'password'
 
 
-# Models
+
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50), nullable=False)
@@ -41,7 +41,7 @@ class StudentResult(db.Model):
         return f'<StudentResult {self.student.first_name} {self.student.last_name} - {self.quiz.subject}>'
 
 
-# Routes
+
 @app.route('/')
 def home():
     """Homepage that redirects to login if not logged in, or to the dashboard if logged in."""
