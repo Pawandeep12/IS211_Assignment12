@@ -45,7 +45,7 @@ class StudentResult(db.Model):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """Handle user login."""
+    
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -61,7 +61,7 @@ def login():
 
 @app.route('/dashboard')
 def dashboard():
-    """Dashboard route to display students and quizzes."""
+   
     if not session.get('logged_in'):
         flash('You must log in first.', 'error')
         return redirect(url_for('login'))
@@ -72,7 +72,6 @@ def dashboard():
 
 @app.route('/logout')
 def logout():
-    """Log out the user."""
     session.pop('logged_in', None)
     flash('You have been logged out.', 'success')
     return redirect(url_for('login'))
