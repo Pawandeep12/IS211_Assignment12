@@ -42,6 +42,22 @@ class StudentResult(db.Model):
     def __repr__(self):
         return f'<StudentResult {self.student.first_name} {self.student.last_name} - {self.quiz.subject}>'
 
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        if username == USERNAME and password == PASSWORD:
+            session['logged_in'] = True
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid username or password', 'error')
+            return redirect(url_for('login'))
+    
+    return render_template('login.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
